@@ -13,4 +13,32 @@
  * */
 export default class Team {
   // TODO: write your logic here
+  constructor(player) {
+    this.characters = new Set();
+    this.add(player);
+  }
+
+  add(players) {
+    if (players.length === 0) {
+      throw new Error('There are no players on the team');
+    }
+
+    players.forEach((character) => {
+      this.characters.add(character);
+    });
+  }
+
+  toArrayOfPlayers() {
+    if (this.characters.size === 0) {
+      throw new Error('There are no players on the team');
+    }
+
+    const arrayOfPlayers = [];
+
+    this.characters.forEach((character) => {
+      arrayOfPlayers.push(character);
+    });
+
+    return arrayOfPlayers;
+  }
 }
