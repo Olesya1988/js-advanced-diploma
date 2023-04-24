@@ -18,6 +18,21 @@ import Undead from './characters/Undead';
 
 export function* characterGenerator(allowedTypes, maxLevel) {
   // TODO: write logic here
+  
+  // метод 1:
+
+  // while (true) {
+  //   const typeRandom = Math.floor(Math.random() * allowedTypes.length);
+  //   const levelRandom = Math.floor((Math.random() * maxLevel) + 1);
+  //   yield new allowedTypes[typeRandom](levelRandom);
+  // }  
+  
+  // метод 2:
+
+  // const levelRandom = Math.floor((Math.random() * maxLevel) + 1);
+  // allowedTypes.map( (char, i) => new char(i)).forEach(char => char.level === levelRandom);
+
+
   const typeRandom = allowedTypes[Math.floor(Math.random() * allowedTypes.length)];
   const levelRandom = Math.floor((Math.random() * maxLevel) + 1);
 
@@ -50,7 +65,7 @@ export function generateTeam(allowedTypes, maxLevel, characterCount) {
 
   for (let i = 0; i < characterCount; i++) {
     characters.push(characterGenerator(allowedTypes, maxLevel).next().value);
-  }
+  }  
 
   return characters;
 }
