@@ -11,6 +11,10 @@
         "LabeledStatement",
         "WithStatement"
       ],
-      "no-plusplus": 0
+      "no-plusplus": 0,
+      "no-new": 0,
+      "no-alert": 0,
+      "no-console": 0,
+      "no-restricted-globals": 0
     }
   }

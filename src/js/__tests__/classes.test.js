@@ -17,6 +17,8 @@ test('test new class Bowman', () => {
     attack: 25,
     defence: 25,
     health: 50,
+    possibleAttacks: 2,
+    possibleMoves: 2,
     type: 'bowman',
   };
   expect(bowman).toEqual(correct);
@@ -30,6 +32,8 @@ test('test new class Daemon', () => {
     attack: 10,
     defence: 10,
     health: 50,
+    possibleAttacks: 4,
+    possibleMoves: 1,
     type: 'daemon',
   };
   expect(daemon).toEqual(correct);
@@ -43,6 +47,8 @@ test('test new class Magician', () => {
     attack: 10,
     defence: 40,
     health: 50,
+    possibleAttacks: 4,
+    possibleMoves: 1,
     type: 'magician',
   };
   expect(magician).toEqual(correct);
