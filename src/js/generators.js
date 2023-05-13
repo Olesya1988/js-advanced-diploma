@@ -16,37 +16,25 @@ import Swordsman from './characters/Swordsman';
 import Vampire from './characters/Vampire';
 import Undead from './characters/Undead';
 
-export function* characterGenerator(allowedTypes, maxLevel) {
+export function* characterGeneratorforGood(allowedTypes, maxLevel) {
   // TODO: write logic here
+  allowedTypes = [Magician, Swordsman, Bowman];
+  while (true) {
+    const typeRandom = Math.floor(Math.random() * allowedTypes.length);
+    const levelRandom = Math.floor((Math.random() * maxLevel) + 1);
 
-  // метод 1:
+    yield new allowedTypes[typeRandom](levelRandom);
+  }
+}
 
-  // while (true) {
-  //   const typeRandom = Math.floor(Math.random() * allowedTypes.length);
-  //   const levelRandom = Math.floor((Math.random() * maxLevel) + 1);
-  //   yield new allowedTypes[typeRandom](levelRandom);
-  // }
+export function* characterGeneratorforBad(allowedTypes, maxLevel) {
+  // TODO: write logic here
+  allowedTypes = [Vampire, Undead, Daemon];
+  while (true) {
+    const typeRandom = Math.floor(Math.random() * allowedTypes.length);
+    const levelRandom = Math.floor((Math.random() * maxLevel) + 1);
 
-  // метод 2:
-
-  // const levelRandom = Math.floor((Math.random() * maxLevel) + 1);
-  // this.allowedTypes.map( (char, i) => new char(i)).map(char => char.level === levelRandom);
-
-  const typeRandom = allowedTypes[Math.floor(Math.random() * allowedTypes.length)];
-  const levelRandom = Math.floor((Math.random() * maxLevel) + 1);
-
-  if (typeRandom === 'Bowman') {
-    yield new Bowman(levelRandom);
-  } else if (typeRandom === 'Magician') {
-    yield new Magician(levelRandom);
-  } else if (typeRandom === 'Swordsman') {
-    yield new Swordsman(levelRandom);
-  } else if (typeRandom === 'Daemon') {
-    yield new Daemon(levelRandom);
-  } else if (typeRandom === 'Vampire') {
-    yield new Vampire(levelRandom);
-  } else if (typeRandom === 'Undead') {
-    yield new Undead(levelRandom);
+    yield new allowedTypes[typeRandom](levelRandom);
   }
 }
 
@@ -58,12 +46,23 @@ export function* characterGenerator(allowedTypes, maxLevel) {
  * @returns экземпляр Team, хранящий экземпляры персонажей.
  * Количество персонажей в команде - characterCount
  * */
-export function generateTeam(allowedTypes, maxLevel, characterCount) {
+export function generateGoodTeam(allowedTypes, maxLevel, characterCount) {
   // TODO: write logic here
   const characters = [];
 
   for (let i = 0; i < characterCount; i++) {
-    characters.push(characterGenerator(allowedTypes, maxLevel).next().value);
+    characters.push(characterGeneratorforGood(allowedTypes, maxLevel).next().value);
+  }
+
+  return characters;
+}
+
+export function generateBadTeam(allowedTypes, maxLevel, characterCount) {
+  // TODO: write logic here
+  const characters = [];
+
+  for (let i = 0; i < characterCount; i++) {
+    characters.push(characterGeneratorforBad(allowedTypes, maxLevel).next().value);
   }
 
   return characters;

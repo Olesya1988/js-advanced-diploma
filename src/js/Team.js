@@ -19,26 +19,15 @@ export default class Team {
   }
 
   add(players) {
-    if (players.length === 0) {
-      throw new Error('There are no players on the team');
-    }
-
     players.forEach((character) => {
       this.characters.add(character);
     });
   }
 
-  toArrayOfPlayers() {
+  toArray() {
     if (this.characters.size === 0) {
-      throw new Error('There are no players on the team');
+      return [];
     }
-
-    const arrayOfPlayers = [];
-
-    this.characters.forEach((character) => {
-      arrayOfPlayers.push(character);
-    });
-
-    return arrayOfPlayers;
+    return [...this.characters];
   }
 }
