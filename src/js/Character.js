@@ -26,15 +26,16 @@ export default class Character {
   }
 
   levelUp() {
+    const healthBefore = this.health;
     this.level += 1;
+    this.health += 80;
 
-    if ((this.health + 80) < 100) {
-      this.health += 80;
-    } else {
+    if (this.health > 100) {
       this.health = 100;
     }
 
-    this.attack = Math.floor(Math.max(this.attack, ((this.attack * (80 + this.health)) / 100)));
-    this.defence = Math.floor(Math.max(this.defence, ((this.defence * (80 + this.health)) / 100)));
+    this.attack = Math.floor(Math.max(this.attack, this.attack * ((1.8 - healthBefore) / 100)));
+    // eslint-disable-next-line
+    this.defence = Math.floor(Math.max(this.defence, this.defence * ((1.8 - healthBefore) / 100)));
   }
 }

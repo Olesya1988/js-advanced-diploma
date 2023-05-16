@@ -18,6 +18,7 @@ import Undead from './characters/Undead';
 
 export function* characterGeneratorforGood(allowedTypes, maxLevel) {
   // TODO: write logic here
+  // eslint-disable-next-line
   allowedTypes = [Magician, Swordsman, Bowman];
   while (true) {
     const typeRandom = Math.floor(Math.random() * allowedTypes.length);
@@ -29,6 +30,7 @@ export function* characterGeneratorforGood(allowedTypes, maxLevel) {
 
 export function* characterGeneratorforBad(allowedTypes, maxLevel) {
   // TODO: write logic here
+  // eslint-disable-next-line
   allowedTypes = [Vampire, Undead, Daemon];
   while (true) {
     const typeRandom = Math.floor(Math.random() * allowedTypes.length);
