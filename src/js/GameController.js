@@ -52,7 +52,11 @@ export default class GameController {
           // eslint-disable-next-line
           this.goodTeam = goodTeamArr.toArray().map((character, index) => new PositionedCharacter(
             character,
-            this.generateRandomPosition(this.getInitialPositions(this.goodTeam)),
+            this.getInitialPositions(
+              [0, 1],
+              goodTeamArr.characters.size - 1 === index,
+              this.gamePlay.boardSize,
+            ),
           ));
 
           console.log('this.goodTeam');
@@ -61,9 +65,13 @@ export default class GameController {
           // проверяем совпадения позиций
           if (this.checkDuplicates(this.goodTeam).length > 0) {
             // eslint-disable-next-line
-        this.goodTeam = goodTeamArr.toArray().map((character, index) => new PositionedCharacter(
+            this.goodTeam = goodTeamArr.toArray().map((character, index) => new PositionedCharacter(
               character,
-              this.generateRandomPosition(this.getInitialPositions(this.goodTeam)),
+              this.getInitialPositions(
+                [0, 1],
+                goodTeamArr.characters.size - 1 === index,
+                this.gamePlay.boardSize,
+              ),
             ));
           }
 
@@ -73,15 +81,23 @@ export default class GameController {
           // eslint-disable-next-line
       this.badTeam = badTeamArr.toArray().map((character, index) => new PositionedCharacter(
             character,
-            this.generateRandomPosition(this.getInitialPositions(this.badTeam)),
+            this.getInitialPositions(
+              [this.gamePlay.boardSize - 2, this.gamePlay.boardSize - 1],
+              badTeamArr.characters.size - 1 === index,
+              this.gamePlay.boardSize,
+            ),
           ));
 
           // проверяем совпадения позиций
           if (this.checkDuplicates(this.badTeam).length > 0) {
             // eslint-disable-next-line
-        this.badTeam = badTeamArr.toArray().map((character, index) => new PositionedCharacter(
+            this.badTeam = badTeamArr.toArray().map((character, index) => new PositionedCharacter(
               character,
-              this.generateRandomPosition(this.getInitialPositions(this.badTeam)),
+              this.getInitialPositions(
+                [this.gamePlay.boardSize - 2, this.gamePlay.boardSize - 1],
+                badTeamArr.characters.size - 1 === index,
+                this.gamePlay.boardSize,
+              ),
             ));
           }
 
@@ -107,14 +123,41 @@ export default class GameController {
           // eslint-disable-next-line
           this.goodTeamNew = goodTeamArrNew.toArray().map((character, index) => new PositionedCharacter(
             character,
-            this.generateRandomPosition(this.getInitialPositions(this.goodTeam)),
+            this.getInitialPositions(
+              [0, 1],
+              goodTeamArrNew.characters.size - 1 === index,
+              this.gamePlay.boardSize,
+            ),
           ));
+
+          // проверяем совпадения позиций
+          if (this.checkDuplicates(this.goodTeamNew).length > 0) {
+            // eslint-disable-next-line
+            this.goodTeamNew = goodTeamArrNew.toArray().map((character, index) => new PositionedCharacter(
+              character,
+              this.getInitialPositions(
+                [0, 1],
+                goodTeamArrNew.characters.size - 1 === index,
+                this.gamePlay.boardSize,
+              ),
+            ));
+          }
+
+          this.goodTeamNew.forEach((el) => {
+            // eslint-disable-next-line
+            el.character.level += 1;
+          });
+
           console.log('this.goodTeamNew');
           console.log(this.goodTeamNew);
 
           this.goodTeam = this.goodTeam.map((character, index) => new PositionedCharacter(
             this.goodTeam[index].character,
-            this.generateRandomPosition(this.getInitialPositions(this.goodTeam)),
+            this.getInitialPositions(
+              [0, 1],
+              this.goodTeam.length - 1 === index,
+              this.gamePlay.boardSize,
+            ),
           ));
 
           this.goodTeam = this.goodTeam.concat(this.goodTeamNew);
@@ -124,7 +167,11 @@ export default class GameController {
             // eslint-disable-next-line
             this.goodTeam = this.goodTeam.map((character, index) => new PositionedCharacter(
               this.goodTeam[index].character,
-              this.generateRandomPosition(this.getInitialPositions(this.goodTeam)),
+              this.getInitialPositions(
+                [0, 1],
+                this.goodTeam.length - 1 === index,
+                this.gamePlay.boardSize,
+              ),
             ));
           }
 
@@ -135,17 +182,17 @@ export default class GameController {
           // eslint-disable-next-line
       this.badTeam = badTeamArr.toArray().map((character, index) => new PositionedCharacter(
             character,
-            this.generateRandomPosition(this.getInitialPositions(this.badTeam)),
+            this.getInitialPositions(
+              [this.gamePlay.boardSize - 2, this.gamePlay.boardSize - 1],
+              badTeamArr.characters.size - 1 === index,
+              this.gamePlay.boardSize,
+            ),
           ));
 
-          // проверяем совпадения позиций
-          if (this.checkDuplicates(this.badTeam).length > 0) {
+          this.badTeam.forEach((el) => {
             // eslint-disable-next-line
-        this.badTeam = badTeamArr.toArray().map((character, index) => new PositionedCharacter(
-              character,
-              this.generateRandomPosition(this.getInitialPositions(this.badTeam)),
-            ));
-          }
+            el.character.level += 1;
+          });
         }
         // объединяем две команды в одну
         this.generalTeam = this.goodTeam.concat(this.badTeam);
@@ -163,34 +210,30 @@ export default class GameController {
     }
   }
 
-  // генерация массива позиций для заданной команды
-  getInitialPositions(team) {
-    this.initialPositions = [];
-    if (team === this.goodTeam) {
-      // eslint-disable-next-line
-      for (let i = 0, i2 = 1; this.initialPositions.length < this.gamePlay.boardSize * 2; i += this.gamePlay.boardSize, i2 += this.gamePlay.boardSize) {
-        this.initialPositions.push(i, i2);
-      }
-    } else {
-      // eslint-disable-next-line
-      for (let i = this.gamePlay.boardSize - 2, i2 = this.gamePlay.boardSize - 1; this.initialPositions.length < this.gamePlay.boardSize * 2; i += this.gamePlay.boardSize, i2 += this.gamePlay.boardSize) { 
-        this.initialPositions.push(i, i2);
+  // генерация позиций игроков
+  // eslint-disable-next-line
+  getInitialPositions(сolumns, last, boardSize) {
+    let initialPositions = [];
+    if (!initialPositions.length) {
+      for (let i = 0; i < сolumns.length; i += 1) {
+        for (let j = 0; j < boardSize; j += 1) {
+          initialPositions.push(j * boardSize + сolumns[i]);
+        }
       }
     }
 
-    return this.initialPositions;
+    const randomIndex = Math.floor((Math.random() * initialPositions.length));
+    const randomPosition = initialPositions[randomIndex];
+    initialPositions.splice(randomIndex, 1);
+
+    if (last) {
+      initialPositions = [];
+    }
+
+    return randomPosition;
   }
 
-  // генерация случайного элемента из массива
-  // eslint-disable-next-line
-  generateRandomPosition(array) {
-    const randomIndex = Math.floor(Math.random() * array.length);
-    const result = array[randomIndex];
-    array.splice(randomIndex, 1);
-    return result;
-  }
-
-  // проверка совпадений в массиве
+  // проверка на совпадение позиций
   // eslint-disable-next-line
   checkDuplicates(arr) {
     const arrOfDuplicates = [];
